@@ -1,0 +1,425 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <title>update</title>
+</head>
+<body>  
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <section id="header">
+        <a href="#" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                {% comment %} <li><a href="">Home</a></li> {% endcomment %}
+                <li><a href="{% url 'shop' %}">Shop</a></li>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                {% else %}
+                <li><a href="{% url 'register' %}">Log In</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                <li><a href="#" class="profile">{{ request.user.email }}</a></li>
+                {% endif %}
+                <li><a href="{% url 'cart' %}">cart</a></li>
+  
+
+            </ul>
+        </div> 
+    </section>
+    <section>
+        <form method="POST" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <h3>Are you sure?</h3>
+            <input class="btn btn-success btn-block" data-backdrop="static" type="submit" value="Delete">
+        </form>
+    </section>
+
+    <style>
+body {
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+}
+
+.container {
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-field {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Spartan', sans-serif;
+}
+
+h1{
+    font-size:50px;
+    line-height:64px;
+    color: #0222;
+}
+form {
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    min-width: 238px;
+    padding: 0 10px;
+    margin-left: 27%;
+    margin-top: 9%;
+}
+
+form.sign-in-form {
+    opacity: 1;
+    transition: 0.5s ease-in-out;
+    transition-delay: 1s;
+}
+
+form.sign-up-form {
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+    transition-delay: 1s;
+}
+
+h3{
+    margin-top:10px;
+}
+
+h4{
+    font-size:20px;
+    color: #0222;
+}
+
+h6{
+    font-weight:700;
+    font-size:12px;
+}
+
+p{
+    font-size:16px;
+    color: #465b52;
+    margin: 15px 0 20px 0;   
+}
+
+.section-p1{
+    padding:40px 80px;
+}
+
+.section-m1{
+    margin:40px 0;
+}
+
+button.normal{
+    font-size:14px;
+    font-weight:600;
+    padding:15px 30px;
+    color:#000;
+    background-color:#fff;
+    border-radius:4px;
+    cursor:pointer;
+    border:none;
+    outline:none;
+    transition:0.2s;
+    margin-right:350px;
+}
+
+body{
+    width:100%;
+}
+#header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5  px 80px;
+    background: #E3E6F3;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    z-index:999;
+    position:sticky;
+    top:0;
+    left:0;
+}
+
+.logo {
+    width: 100px;
+    height:100px;
+}
+
+
+
+.logo:hover{
+    background: rgba(255,255,255,0.05);
+	transform: scale(0.93)
+}
+
+
+
+#navbar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+
+#navbar .profile{
+    text-decoration:none;
+    font-size:16px;
+    font-weight:600;
+    color:#7D7D7D;
+}
+
+
+#navbar li{
+    list-style:none;
+    padding:0 20px;
+    position:relative;
+}
+
+#navbar li a{
+    text-decoration:none;
+    font-size:16px;
+    font-weight:600;
+    color:#1a1a1a;
+    transition:0.3s ease;
+}
+
+#navbar li a:hover,
+#navbar li a.active{
+    color:#E69500;
+}
+
+#navbar li a.active::after,
+#navbar li a:hover::after{
+    content:"";
+    width: 30%;
+    height:2px;
+    background:#ffa600;
+    position:absolute;
+    bottom:-4px;
+    left:20px;
+}
+#page-header{
+    background-image:url("{% static '/images/banner1.jpg' %}");
+    width:100%;
+    height:30vh;
+    background-size:cover;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    flex-direction:column;
+    padding:14px;
+}
+
+#page-header h2,p{
+    color:white;
+}
+
+#page-header h2{
+    font-size:50px;
+    color:orange;
+}
+
+#cart table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    white-space:nowrap;
+}
+
+#cart table img{
+    width:90px;
+}
+
+
+#cart table .remove{
+    color:black;
+}
+
+#cart table .remove:hover{
+    color:orange;
+}
+
+#cart table td:nth-child(1){
+    width:100px;
+    text-align:center;
+}
+
+#cart table td:nth-child(2){
+    width:150px;
+    text-align:center;
+}
+
+#cart table td:nth-child(3){
+    width:200px;
+    text-align:center;
+}
+
+#cart table td:nth-child(6){
+    width:200px;
+    text-align:center;
+}
+#cart table td:nth-child(4),
+#cart table td:nth-child(5),
+#cart table td:nth-child(7){
+    width:150px;
+    text-align:center;
+    margin-left:40px;
+}
+
+#cart table td:nth-child(6) input{
+    width:80px;
+    padding:10px 5px 10px 15px;
+    font-weight:500;
+}
+
+#cart table thead{
+    border:1px solid black;
+    border-left:none;
+    border-right:none;
+}
+
+#cart table thead td{
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:13px;
+    padding:18px 0;
+}
+
+#cart table tbody tr td{
+    padding-top:15px;
+    font-weight:500;
+}
+
+#cart table tbody td{
+    font-size:13px;
+}
+
+#subtotal{
+    width:50%;
+    margin-bottom:30px;
+    margin-top:50px;
+    border:2px solid #C7C7C7;
+    padding:30px;
+}
+
+#subtotal table{
+    border-collapse:collapse;
+    width:100%;
+    margin-bottom:20px;
+}
+
+#subtotal table td{
+    width:50%;
+    border:1px solid #C7C7C7;
+    padding:10px;
+    font-size:13px;
+    font-weight:500;
+}
+
+#subtotal h3{
+    padding-bottom:15px;
+}
+
+#subtotal button{
+    background-color:orange;
+    color:white;
+    padding:12px 20px;
+}
+
+.single-pro-details #remove{
+    background-color:red;
+    color:white;
+    padding:5px 10px;
+    border-radius:5px;
+    border:none;
+    cursor:pointer;
+}
+
+.wrapper{
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    border-radius: 12px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    margin-bottom:15px; 
+    margin-left:90px;
+}
+  .wrapper span{
+    width: 100%;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .wrapper .minus{
+    margin-bottom:4px;
+  }
+
+  .wrapper input{
+      width:5%;
+      outline-width: 0px;
+  }
+
+  .wrapper .num{
+      border:none;
+      text-align:center;
+  }
+
+
+</style>
+
+
+<script>
+  
+</script>
