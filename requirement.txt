@@ -1,0 +1,10 @@
+asgiref==3.6.0
+backports.zoneinfo==0.2.1
+beautifulsoup4==4.12.2
+Django==4.2.1
+django-bootstrap4==23.1
+django-crispy-forms==2.0
+mysqlclient==2.1.1
+Pillow==9.5.0
+soupsieve==2.4.1
+sqlparse==0.4.4
